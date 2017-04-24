@@ -25,8 +25,6 @@ class Tipo extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'estado_id' => false
+        '*' => true
     ];
 }

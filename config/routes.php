@@ -83,6 +83,7 @@ Router::scope('/', function ($routes) {
     $routes->extensions(['json']);
     $routes->resources('Claves');
     $routes->resources('Marcas');
+    $routes->resources('Tipos');
 });
 
 Plugin::routes();

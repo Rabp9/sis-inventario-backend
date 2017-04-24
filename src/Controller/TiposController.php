@@ -16,12 +16,8 @@ class TiposController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Estados']
-        ];
-        $tipos = $this->paginate($this->Tipos);
+    public function index() {
+        $tipos = $this->Tipos->find();
 
         $this->set(compact('tipos'));
         $this->set('_serialize', ['tipos']);
@@ -49,17 +45,22 @@ class TiposController extends AppController
      *
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $tipo = $this->Tipos->newEntity();
+        $tipo->estado_id = 1;
         if ($this->request->is('post')) {
             $tipo = $this->Tipos->patchEntity($tipo, $this->request->getData());
             if ($this->Tipos->save($tipo)) {
-                $this->Flash->success(__('The tipo has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $message =  [
+                    'text' => __('El Tipo de Equipo fue guardada correctamente'),
+                    'type' => 'success',
+                ];
+            } else {
+                $message =  [
+                    'text' => __('El Tipo de Equipo no fue guardada correctamente'),
+                    'type' => 'error',
+                ];
             }
-            $this->Flash->error(__('The tipo could not be saved. Please, try again.'));
         }
         $estados = $this->Tipos->Estados->find('list', ['limit' => 200]);
         $this->set(compact('tipo', 'estados'));

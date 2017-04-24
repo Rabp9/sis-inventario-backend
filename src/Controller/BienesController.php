@@ -1,0 +1,118 @@
+<?php
+namespace App\Controller;
+
+use App\Controller\AppController;
+
+/**
+ * Bienes Controller
+ *
+ * @property \App\Model\Table\BienesTable $Bienes
+ */
+class BienesController extends AppController
+{
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'contain' => ['Tipos', 'Marcas', 'Estados']
+        ];
+        $bienes = $this->paginate($this->Bienes);
+
+        $this->set(compact('bienes'));
+        $this->set('_serialize', ['bienes']);
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Biene id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $biene = $this->Bienes->get($id, [
+            'contain' => ['Tipos', 'Marcas', 'Estados']
+        ]);
+
+        $this->set('biene', $biene);
+        $this->set('_serialize', ['biene']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $biene = $this->Bienes->newEntity();
+        if ($this->request->is('post')) {
+            $biene = $this->Bienes->patchEntity($biene, $this->request->getData());
+            if ($this->Bienes->save($biene)) {
+                $this->Flash->success(__('The biene has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The biene could not be saved. Please, try again.'));
+        }
+        $tipos = $this->Bienes->Tipos->find('list', ['limit' => 200]);
+        $marcas = $this->Bienes->Marcas->find('list', ['limit' => 200]);
+        $estados = $this->Bienes->Estados->find('list', ['limit' => 200]);
+        $this->set(compact('biene', 'tipos', 'marcas', 'estados'));
+        $this->set('_serialize', ['biene']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Biene id.
+     * @return \Cake\Network\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $biene = $this->Bienes->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $biene = $this->Bienes->patchEntity($biene, $this->request->getData());
+            if ($this->Bienes->save($biene)) {
+                $this->Flash->success(__('The biene has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The biene could not be saved. Please, try again.'));
+        }
+        $tipos = $this->Bienes->Tipos->find('list', ['limit' => 200]);
+        $marcas = $this->Bienes->Marcas->find('list', ['limit' => 200]);
+        $estados = $this->Bienes->Estados->find('list', ['limit' => 200]);
+        $this->set(compact('biene', 'tipos', 'marcas', 'estados'));
+        $this->set('_serialize', ['biene']);
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Biene id.
+     * @return \Cake\Network\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $biene = $this->Bienes->get($id);
+        if ($this->Bienes->delete($biene)) {
+            $this->Flash->success(__('The biene has been deleted.'));
+        } else {
+            $this->Flash->error(__('The biene could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+}

@@ -62,9 +62,8 @@ class TiposController extends AppController
                 ];
             }
         }
-        $estados = $this->Tipos->Estados->find('list', ['limit' => 200]);
-        $this->set(compact('tipo', 'estados'));
-        $this->set('_serialize', ['tipo']);
+        $this->set(compact('tipo', 'message'));
+        $this->set('_serialize', ['tipo', 'message']);
     }
 
     /**

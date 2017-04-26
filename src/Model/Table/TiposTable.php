@@ -10,6 +10,7 @@ use Cake\Validation\Validator;
  * Tipos Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Estados
+ * @property \Cake\ORM\Association\HasMany $Datos
  *
  * @method \App\Model\Entity\Tipo get($primaryKey, $options = [])
  * @method \App\Model\Entity\Tipo newEntity($data = null, array $options = [])
@@ -38,6 +39,9 @@ class TiposTable extends Table
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Datos', [
+            'foreignKey' => 'tipo_id'
         ]);
     }
 }

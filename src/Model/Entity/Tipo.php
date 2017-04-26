@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property int $estado_id
  *
  * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\Dato[] $datos
  */
 class Tipo extends Entity
 {

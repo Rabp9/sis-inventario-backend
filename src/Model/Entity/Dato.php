@@ -27,9 +27,6 @@ class Dato extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'tipos_id' => false,
-        'estado_id' => false
+        '*' => true
     ];
 }

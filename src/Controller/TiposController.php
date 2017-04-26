@@ -17,7 +17,8 @@ class TiposController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $tipos = $this->Tipos->find();
+        $tipos = $this->Tipos->find()
+            ->contain(['Datos']);
 
         $this->set(compact('tipos'));
         $this->set('_serialize', ['tipos']);

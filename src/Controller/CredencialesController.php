@@ -4,11 +4,11 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 /**
- * Claves Controller
+ * Credenciales Controller
  *
- * @property \App\Model\Table\ClavesTable $Claves
+ * @property \App\Model\Table\CredencialesTable $Credenciales
  */
-class ClavesController extends AppController
+class CredencialesController extends AppController
 {
 
     /**
@@ -17,10 +17,10 @@ class ClavesController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $claves = $this->Claves->find();
+        $credenciales = $this->Credenciales->find();
 
-        $this->set(compact('claves'));
-        $this->set('_serialize', ['claves']);
+        $this->set(compact('credenciales'));
+        $this->set('_serialize', ['credenciales']);
     }
 
     /**
@@ -32,12 +32,12 @@ class ClavesController extends AppController
      */
     public function view($id = null)
     {
-        $clave = $this->Claves->get($id, [
+        $credencial = $this->Credenciales->get($id, [
             'contain' => []
         ]);
 
-        $this->set('clave', $clave);
-        $this->set('_serialize', ['clave']);
+        $this->set('credencial', $credencial);
+        $this->set('_serialize', ['credencial']);
     }
 
     /**
@@ -46,24 +46,24 @@ class ClavesController extends AppController
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $clave = $this->Claves->newEntity();
-        $clave->estado_id = 1;
+        $credencial = $this->Credenciales->newEntity();
+        $credencial->estado_id = 1;
         if ($this->request->is('post')) {
-            $clave = $this->Claves->patchEntity($clave, $this->request->getData());
-            if ($this->Claves->save($clave)) {
+            $credencial = $this->Credenciales->patchEntity($credencial, $this->request->getData());
+            if ($this->Credenciales->save($credencial)) {
                 $message =  [
-                    'text' => __('La clave fue guardada correctamente'),
+                    'text' => __('La credencial fue guardada correctamente'),
                     'type' => 'success',
                 ];
             } else {
                 $message =  [
-                    'text' => __('La clave no fue guardada correctamente'),
+                    'text' => __('La credencial no fue guardada correctamente'),
                     'type' => 'error',
                 ];
             }
         }
-        $this->set(compact('clave', 'message'));
-        $this->set('_serialize', ['clave', 'message']);
+        $this->set(compact('credencial', 'message'));
+        $this->set('_serialize', ['credencial', 'message']);
     }
 
     /**
@@ -75,20 +75,20 @@ class ClavesController extends AppController
      */
     public function edit($id = null)
     {
-        $clave = $this->Claves->get($id, [
+        $credencial = $this->Credenciales->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $clave = $this->Claves->patchEntity($clave, $this->request->getData());
-            if ($this->Claves->save($clave)) {
-                $this->Flash->success(__('The clave has been saved.'));
+            $credencial = $this->Credenciales->patchEntity($credencial, $this->request->getData());
+            if ($this->Credenciales->save($credencial)) {
+                $this->Flash->success(__('The credencial has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The clave could not be saved. Please, try again.'));
+            $this->Flash->error(__('The credencial could not be saved. Please, try again.'));
         }
-        $this->set(compact('clave'));
-        $this->set('_serialize', ['clave']);
+        $this->set(compact('credencial'));
+        $this->set('_serialize', ['credencial']);
     }
 
     /**
@@ -101,11 +101,11 @@ class ClavesController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $clave = $this->Claves->get($id);
-        if ($this->Claves->delete($clave)) {
-            $this->Flash->success(__('The clave has been deleted.'));
+        $credencial = $this->Credenciales->get($id);
+        if ($this->Credenciales->delete($credencial)) {
+            $this->Flash->success(__('The credencial has been deleted.'));
         } else {
-            $this->Flash->error(__('The clave could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The credencial could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

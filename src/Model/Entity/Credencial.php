@@ -4,13 +4,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Clave Entity
+ * Credencial Entity
  *
  * @property int $id
  * @property string $software
- * @property string $clave
+ * @property string $username
+ * @property string $password
  */
-class Clave extends Entity
+class Credencial extends Entity
 {
 
     /**

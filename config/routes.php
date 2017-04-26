@@ -81,7 +81,7 @@ Router::scope('/', function (RouteBuilder $routes) {
  */
 Router::scope('/', function ($routes) {
     $routes->extensions(['json']);
-    $routes->resources('Claves');
+    $routes->resources('Credenciales');
     $routes->resources('Marcas');
     $routes->resources('Tipos');
 });

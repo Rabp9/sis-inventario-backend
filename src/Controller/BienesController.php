@@ -16,12 +16,8 @@ class BienesController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Tipos', 'Marcas', 'Estados']
-        ];
-        $bienes = $this->paginate($this->Bienes);
+    public function index() {
+        $bienes = $this->Bienes->find();
 
         $this->set(compact('bienes'));
         $this->set('_serialize', ['bienes']);
@@ -49,8 +45,7 @@ class BienesController extends AppController
      *
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $biene = $this->Bienes->newEntity();
         if ($this->request->is('post')) {
             $biene = $this->Bienes->patchEntity($biene, $this->request->getData());

@@ -46,21 +46,24 @@ class BienesController extends AppController
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $biene = $this->Bienes->newEntity();
+        $bien = $this->Bienes->newEntity();
+        $bien->estado_id = 1;
         if ($this->request->is('post')) {
-            $biene = $this->Bienes->patchEntity($biene, $this->request->getData());
-            if ($this->Bienes->save($biene)) {
-                $this->Flash->success(__('The biene has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+            $bien = $this->Bienes->patchEntity($bien, $this->request->getData());
+            if ($this->Bienes->save($bien)) {
+                $message =  [
+                    'text' => __('El Bien fue guardado correctamente'),
+                    'type' => 'success',
+                ];
+            } else {
+                $message =  [
+                    'text' => __('El Bien no fue guardado correctamente'),
+                    'type' => 'error',
+                ];
             }
-            $this->Flash->error(__('The biene could not be saved. Please, try again.'));
         }
-        $tipos = $this->Bienes->Tipos->find('list', ['limit' => 200]);
-        $marcas = $this->Bienes->Marcas->find('list', ['limit' => 200]);
-        $estados = $this->Bienes->Estados->find('list', ['limit' => 200]);
-        $this->set(compact('biene', 'tipos', 'marcas', 'estados'));
-        $this->set('_serialize', ['biene']);
+        $this->set(compact('bien', 'message'));
+        $this->set('_serialize', ['bien', 'message']);
     }
 
     /**

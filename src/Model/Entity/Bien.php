@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Biene Entity
+ * Bien Entity
  *
  * @property int $id
  * @property int $tipo_id
@@ -19,8 +19,9 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Tipo $tipo
  * @property \App\Model\Entity\Marca $marca
  * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\BienDato[] $bien_datos
  */
-class Biene extends Entity
+class Bien extends Entity
 {
 
     /**
@@ -33,10 +34,6 @@ class Biene extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'tipo_id' => false,
-        'marca_id' => false,
-        'estado_id' => false
+        '*' => true
     ];
 }

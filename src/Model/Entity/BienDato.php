@@ -27,9 +27,6 @@ class BienDato extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'bien_id' => false,
-        'dato_id' => false
+        '*' => true
     ];
 }

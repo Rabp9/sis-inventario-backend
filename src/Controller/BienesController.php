@@ -17,7 +17,8 @@ class BienesController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $bienes = $this->Bienes->find();
+        $bienes = $this->Bienes->find()
+            ->contain(['Tipos', 'Marcas']);
 
         $this->set(compact('bienes'));
         $this->set('_serialize', ['bienes']);
@@ -51,6 +52,7 @@ class BienesController extends AppController
         if ($this->request->is('post')) {
             $bien = $this->Bienes->patchEntity($bien, $this->request->getData());
             if ($this->Bienes->save($bien)) {
+                $bien = $this->Bienes->get($bien->id, ['contain' => ['Tipos', 'Marcas']]);
                 $message =  [
                     'text' => __('El Bien fue guardado correctamente'),
                     'type' => 'success',

@@ -17,8 +17,7 @@ class TiposController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
-        $tipos = $this->Tipos->find()
-            ->contain(['Datos']);
+        $tipos = $this->Tipos->find();
 
         $this->set(compact('tipos'));
         $this->set('_serialize', ['tipos']);
@@ -31,13 +30,12 @@ class TiposController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $tipo = $this->Tipos->get($id, [
-            'contain' => ['Estados']
+            'contain' => ['Datos', 'Estados']
         ]);
 
-        $this->set('tipo', $tipo);
+        $this->set(compact('tipo'));
         $this->set('_serialize', ['tipo']);
     }
 

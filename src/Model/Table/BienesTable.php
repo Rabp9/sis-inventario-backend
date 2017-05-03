@@ -55,6 +55,6 @@ class BienesTable extends Table
         ]);
         $this->hasMany('BienDatos', [
             'foreignKey' => 'bien_id'
-        ]);
+        ])->setSaveStrategy('replace');
     }
 }

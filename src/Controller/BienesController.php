@@ -27,18 +27,17 @@ class BienesController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Biene id.
+     * @param string|null $id Bien id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $biene = $this->Bienes->get($id, [
-            'contain' => ['Tipos', 'Marcas', 'Estados']
+    public function view($id = null) {
+        $bien = $this->Bienes->get($id, [
+            'contain' => ['Tipos.Datos', 'Marcas', 'Estados', 'BienDatos.Datos']
         ]);
 
-        $this->set('biene', $biene);
-        $this->set('_serialize', ['biene']);
+        $this->set(compact('bien'));
+        $this->set('_serialize', ['bien']);
     }
 
     /**
@@ -51,6 +50,7 @@ class BienesController extends AppController
         $bien->estado_id = 1;
         if ($this->request->is('post')) {
             $bien = $this->Bienes->patchEntity($bien, $this->request->getData());
+            
             if ($this->Bienes->save($bien)) {
                 $bien = $this->Bienes->get($bien->id, ['contain' => ['Tipos', 'Marcas']]);
                 $message =  [

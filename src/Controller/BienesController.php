@@ -17,11 +17,25 @@ class BienesController extends AppController
      * @return \Cake\Network\Response|null
      */
     public function index() {
+        $maxSize = $this->request->getQuery('maxSize');
+
+        $this->paginate = [
+            'limit' => $maxSize
+        ];
         $bienes = $this->Bienes->find()
             ->contain(['Tipos', 'Marcas']);
 
-        $this->set(compact('bienes'));
-        $this->set('_serialize', ['bienes']);
+        $bienes = $this->paginate($bienes);
+            
+        $paginate = $this->request->getParam('paging')['Bienes'];
+       
+        $pagination = [
+            'totalItems' => $paginate['count'],
+            'itemsPerPage' =>  $paginate['perPage']
+        ];
+        
+        $this->set(compact('bienes', 'pagination'));
+        $this->set('_serialize', ['bienes', 'pagination']);
     }
 
     /**

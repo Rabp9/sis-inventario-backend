@@ -84,7 +84,14 @@ Router::scope('/', function ($routes) {
     $routes->resources('Credenciales');
     $routes->resources('Marcas');
     $routes->resources('Tipos');
-    $routes->resources('Bienes');
+    $routes->resources('Bienes', [
+        'map' => [
+            'registrarLote' => [
+                'action' => 'registrarLote',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
 });
 
 Plugin::routes();

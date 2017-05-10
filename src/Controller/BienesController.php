@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-
+use Cake\Datasource\ConnectionManager;
 /**
  * Bienes Controller
  *
@@ -128,5 +128,33 @@ class BienesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function registrarLote() {
+        $this->request->allowMethod(['post']);
+        $bienes = $this->Bienes->newEntities($this->request->getData('bienes'));
+        
+        $cn = ConnectionManager::get('default');
+        $cn->begin();
+        
+        $success = true;
+        foreach ($bienes as $bien) {
+            $bien->estado_id = 1; // Activo
+            if (!$this->Bienes->save($bien)) {
+                $success = false;
+            }
+        }
+        if ($success) {
+            $cn->commit();
+            $message= "Los bienes fueron registrados correctamente";
+            $code = 200;
+        } else {
+            $cn->rollback();
+            $message= "Los bienes no fueron registrados correctamente";
+            $code = 500;
+        }
+        
+        $this->set(compact('code', 'message'));
+        $this->set('_serialize', ['code', 'message']);
     }
 }

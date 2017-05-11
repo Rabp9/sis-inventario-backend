@@ -20,7 +20,10 @@ class BienesController extends AppController
         $maxSize = $this->request->getQuery('maxSize');
 
         $this->paginate = [
-            'limit' => $maxSize
+            'limit' => $maxSize,
+            'order' => [
+                'Bienes.id' => 'asc'
+            ]
         ];
         $query = $this->Bienes->find()
             ->contain(['Tipos', 'Marcas']);
@@ -47,7 +50,7 @@ class BienesController extends AppController
      */
     public function view($id = null) {
         $bien = $this->Bienes->get($id, [
-            'contain' => ['Tipos.Datos', 'Marcas', 'Estados', 'BienDatos.Datos']
+            'contain' => ['BienDatos.Datos']
         ]);
 
         $this->set(compact('bien'));
@@ -64,7 +67,6 @@ class BienesController extends AppController
         $bien->estado_id = 1;
         if ($this->request->is('post')) {
             $bien = $this->Bienes->patchEntity($bien, $this->request->getData());
-            
             if ($this->Bienes->save($bien)) {
                 $bien = $this->Bienes->get($bien->id, ['contain' => ['Tipos', 'Marcas']]);
                 $code = 200;

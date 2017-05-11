@@ -30,13 +30,10 @@ class MarcasController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $marca = $this->Marcas->get($id, [
-            'contain' => ['Estados']
-        ]);
+    public function view($id = null) {
+        $marca = $this->Marcas->get($id);
 
-        $this->set('marca', $marca);
+        $this->set(compact('marca'));
         $this->set('_serialize', ['marca']);
     }
 
@@ -51,19 +48,15 @@ class MarcasController extends AppController
         if ($this->request->is('post')) {
             $marca = $this->Marcas->patchEntity($marca, $this->request->getData());
             if ($this->Marcas->save($marca)) {
-                $message =  [
-                    'text' => __('La marca fue guardada correctamente'),
-                    'type' => 'success',
-                ];
+                $code = 200;
+                $message = 'La marca fue guardada correctamente';
             } else {
-                $message =  [
-                    'text' => __('La marca no fue guardada correctamente'),
-                    'type' => 'error',
-                ];
+                $code = 500;
+                $message = 'La marca no fue guardada correctamente';
             }
         }
-        $this->set(compact('marca', 'message'));
-        $this->set('_serialize', ['marca', 'message']);
+        $this->set(compact('marca', 'code', 'message'));
+        $this->set('_serialize', ['marca', 'code', 'message']);
     }
 
     /**

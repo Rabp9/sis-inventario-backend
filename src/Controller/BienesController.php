@@ -22,10 +22,10 @@ class BienesController extends AppController
         $this->paginate = [
             'limit' => $maxSize
         ];
-        $bienes = $this->Bienes->find()
+        $query = $this->Bienes->find()
             ->contain(['Tipos', 'Marcas']);
 
-        $bienes = $this->paginate($bienes);
+        $bienes = $this->paginate($query);
             
         $paginate = $this->request->getParam('paging')['Bienes'];
        
@@ -67,19 +67,15 @@ class BienesController extends AppController
             
             if ($this->Bienes->save($bien)) {
                 $bien = $this->Bienes->get($bien->id, ['contain' => ['Tipos', 'Marcas']]);
-                $message =  [
-                    'text' => __('El Bien fue guardado correctamente'),
-                    'type' => 'success',
-                ];
+                $code = 200;
+                $message = __('El Bien fue guardado correctamente');
             } else {
-                $message =  [
-                    'text' => __('El Bien no fue guardado correctamente'),
-                    'type' => 'error',
-                ];
+                $code = 500;
+                $message = __('El Bien no fue guardado correctamente');
             }
         }
-        $this->set(compact('bien', 'message'));
-        $this->set('_serialize', ['bien', 'message']);
+        $this->set(compact('bien', 'code', 'message'));
+        $this->set('_serialize', ['bien', 'code', 'message']);
     }
 
     /**

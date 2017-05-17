@@ -32,7 +32,7 @@ class TiposController extends AppController
      */
     public function view($id = null) {
         $tipo = $this->Tipos->get($id, [
-            'contain' => ['Datos', 'Estados']
+            'contain' => ['Datos']
         ]);
 
         $this->set(compact('tipo'));
@@ -50,19 +50,15 @@ class TiposController extends AppController
         if ($this->request->is('post')) {
             $tipo = $this->Tipos->patchEntity($tipo, $this->request->getData());
             if ($this->Tipos->save($tipo)) {
-                $message =  [
-                    'text' => __('El Tipo de Equipo fue guardada correctamente'),
-                    'type' => 'success',
-                ];
+                $code = 200;
+                $message = 'El Tipo de Equipo fue guardado correctamente';
             } else {
-                $message =  [
-                    'text' => __('El Tipo de Equipo no fue guardada correctamente'),
-                    'type' => 'error',
-                ];
+                $code = 500;
+                $message = 'El Tipo de Equipo no fue guardado correctamente';
             }
         }
-        $this->set(compact('tipo', 'message'));
-        $this->set('_serialize', ['tipo', 'message']);
+        $this->set(compact('tipo', 'code', 'message'));
+        $this->set('_serialize', ['tipo', 'code', 'message']);
     }
 
     /**

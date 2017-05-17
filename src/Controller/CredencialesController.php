@@ -51,19 +51,15 @@ class CredencialesController extends AppController
         if ($this->request->is('post')) {
             $credencial = $this->Credenciales->patchEntity($credencial, $this->request->getData());
             if ($this->Credenciales->save($credencial)) {
-                $message =  [
-                    'text' => __('La credencial fue guardada correctamente'),
-                    'type' => 'success',
-                ];
+                $code = 200;
+                $message = 'La credencial fue guardada correctamente';
             } else {
-                $message =  [
-                    'text' => __('La credencial no fue guardada correctamente'),
-                    'type' => 'error',
-                ];
+                $code = 500;
+                $message = 'La credencial no fue guardada correctamente';
             }
         }
-        $this->set(compact('credencial', 'message'));
-        $this->set('_serialize', ['credencial', 'message']);
+        $this->set(compact('credencial', 'code', 'message'));
+        $this->set('_serialize', ['credencial', 'code', 'message']);
     }
 
     /**

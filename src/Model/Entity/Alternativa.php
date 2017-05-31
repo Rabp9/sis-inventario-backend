@@ -7,17 +7,14 @@ use Cake\ORM\Entity;
  * Dato Entity
  *
  * @property int $id
- * @property int $tipo_id
+ * @property int $dato_id
  * @property string $descripcion
- * @property string $tipoDato
- * @property bool $unico
  * @property int $estado_id
  *
- * @property \App\Model\Entity\Tipo $tipo
+ * @property \App\Model\Entity\Dato $dato
  * @property \App\Model\Entity\Estado $estado
- * @property \App\Model\Entity\Alternativa[] $alternativas
  */
-class Dato extends Entity
+class Alternativa extends Entity
 {
 
     /**

@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Tipos
  * @property \Cake\ORM\Association\BelongsTo $Estados
+ * @property \Cake\ORM\Association\HasMany $Alternativas
  *
  * @method \App\Model\Entity\Dato get($primaryKey, $options = [])
  * @method \App\Model\Entity\Dato newEntity($data = null, array $options = [])
@@ -33,16 +34,19 @@ class DatosTable extends Table
         parent::initialize($config);
 
         $this->setTable('datos');
-        $this->setDisplayField('id');
+        $this->setDisplayField('descripcion');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Tipos', [
-            'foreignKey' => 'tipos_id',
+            'foreignKey' => 'tipo_id',
             'joinType' => 'INNER'
         ]);
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Alternativas', [
+            'foreignKey' => 'dato_id'
         ]);
     }
 }

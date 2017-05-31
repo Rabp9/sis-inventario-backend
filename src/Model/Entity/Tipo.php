@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $descripcion
+ * @property string $naturaleza
  * @property int $estado_id
  *
  * @property \App\Model\Entity\Estado $estado

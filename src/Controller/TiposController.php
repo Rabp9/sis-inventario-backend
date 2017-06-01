@@ -45,10 +45,10 @@ class TiposController extends AppController
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add() {
-        $tipo = $this->Tipos->newEntity($this->request->getData());
+        $tipo = $this->Tipos->newEntity($this->request->getData(), ['associated' => ['Datos.Alternativas']]);
         $tipo->estado_id = 1;
         if ($this->request->is('post')) {
-            if ($this->Tipos->save($tipo, ['associated' => ['Datos', 'Datos.Alternativas']])) {
+            if ($this->Tipos->save($tipo)) {
                 $code = 200;
                 $message = 'El Tipo de Equipo fue guardado correctamente';
             } else {

@@ -32,7 +32,7 @@ class TiposController extends AppController
      */
     public function view($id = null) {
         $tipo = $this->Tipos->get($id, [
-            'contain' => ['Datos']
+            'contain' => ['Datos.Alternativas']
         ]);
 
         $this->set(compact('tipo'));

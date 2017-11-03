@@ -57,4 +57,6 @@ class BienesTable extends Table
             'foreignKey' => 'bien_id'
         ])->setSaveStrategy('replace');
     }
+    
+    
 }

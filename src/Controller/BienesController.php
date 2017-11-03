@@ -50,7 +50,7 @@ class BienesController extends AppController
      */
     public function view($id = null) {
         $bien = $this->Bienes->get($id, [
-            'contain' => ['BienDatos.Datos']
+            'contain' => ['BienDatos.Datos.Alternativas']
         ]);
 
         $this->set(compact('bien'));

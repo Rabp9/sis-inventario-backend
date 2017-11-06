@@ -155,4 +155,31 @@ class BienesController extends AppController
         $this->set(compact('code', 'message'));
         $this->set('_serialize', ['code', 'message']);
     }
+    
+    public function getBienesMovimientos() {
+        $maxSize = $this->request->getQuery('maxSize');
+
+        $this->paginate = [
+            'limit' => $maxSize,
+            'order' => [
+                'Bienes.id' => 'asc'
+            ]
+        ];
+        $query = $this->Bienes->find()
+            ->contain(['Tipos', 'Marcas', 'Movimientos' => function($q) {
+                return $q->where(['Movimientos.estado_id' => 1]);
+            }]);
+
+        $bienes = $this->paginate($query);
+            
+        $paginate = $this->request->getParam('paging')['Bienes'];
+       
+        $pagination = [
+            'totalItems' => $paginate['count'],
+            'itemsPerPage' =>  $paginate['perPage']
+        ];
+        
+        $this->set(compact('bienes', 'pagination'));
+        $this->set('_serialize', ['bienes', 'pagination']);
+    }
 }

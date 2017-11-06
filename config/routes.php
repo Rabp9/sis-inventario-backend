@@ -90,6 +90,10 @@ Router::scope('/', function ($routes) {
             'registrarLote' => [
                 'action' => 'registrarLote',
                 'method' => 'POST'
+            ],
+            'getBienesMovimientos' => [
+                'action' => 'getBienesMovimientos',
+                'method' => 'GET'
             ]
         ]
     ]);

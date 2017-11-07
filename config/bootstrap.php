@@ -73,8 +73,17 @@ use Cake\Utility\Security;
  * that changes from configuration that does not. This makes deployment simpler.
  */
 try {
+    Configure::write('CAKEPHP_DEBUG', getenv('CAKEPHP_DEBUG'));
+    Configure::write('prefix_systram', 'systram_tmt');
+    Configure::write('prefix_sis_inventario', 'sis_inventario');
+    
     Configure::config('default', new PhpConfig());
     Configure::load('app', 'default', false);
+    if (!Configure::read('CAKEPHP_DEBUG')) {
+        Configure::write('prefix_systram', 'systram_tmt');
+        Configure::write('prefix_sis_inventario', 'sis_inventario');
+        Configure::load('appserver', 'default', true);
+    }
 } catch (\Exception $e) {
     exit($e->getMessage() . "\n");
 }
@@ -222,3 +231,4 @@ if (Configure::read('debug')) {
 }
 
 Plugin::load('Cors', ['bootstrap' => true, 'routes' => false]);
+Plugin::load('ADmad/JwtAuth');

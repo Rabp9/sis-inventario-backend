@@ -4,16 +4,20 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * AreaActiva Entity
+ * Area Entity
  *
- * @property int $id
- * @property int $area_id
- * @property int $estado_id
- *
- * @property \App\Model\Entity\Area $area
- * @property \App\Model\Entity\Estado $estado
+ * @property int $cod_Parea
+ * @property string $per_Area
+ * @property string $sigla
+ * @property string $telf_1
+ * @property string $telf_anexo
+ * @property string $posi
+ * @property int $Idestado
+ * @property int $pertenencia
+ * @property int $id_depend
+ * @property string $dir_area
  */
-class AreaActiva extends Entity
+class Area extends Entity
 {
 
     /**
@@ -26,8 +30,6 @@ class AreaActiva extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'estado_id' => false
+        '*' => true
     ];
 }

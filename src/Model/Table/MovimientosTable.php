@@ -37,7 +37,7 @@ class MovimientosTable extends Table
 
         $this->setTable('movimientos');
         $this->setDisplayField('id');
-        $this->setPrimaryKey(['id', 'bien_id', 'area_activa_id', 'usuario_activo_id', 'estado_id']);
+        $this->setPrimaryKey('id');
 
         $this->belongsTo('Bienes', [
             'foreignKey' => 'bien_id',
@@ -53,6 +53,20 @@ class MovimientosTable extends Table
         ]);
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Areas', [
+            'foreignKey' => 'area_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Responsable', [
+            'className' => 'Personas',
+            'foreignKey' => 'responsable',
+            'propertyName' => 'responsable',
             'joinType' => 'INNER'
         ]);
     }
@@ -92,7 +106,6 @@ class MovimientosTable extends Table
     {
         $rules->add($rules->existsIn(['bien_id'], 'Bienes'));
         $rules->add($rules->existsIn(['area_activa_id'], 'AreaActivas'));
-        $rules->add($rules->existsIn(['usuario_activo_id'], 'UsuarioActivos'));
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
 
         return $rules;

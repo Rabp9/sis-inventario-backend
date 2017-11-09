@@ -117,4 +117,14 @@ class MovimientosController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function getByBien() {
+        $bien_id = $this->request->getParam('bien_id');
+        
+        $movimientos = $this->Movimientos->findByBienId($bien_id)
+            ->contain(['Areas', 'Responsable']);
+        
+        $this->set(compact('movimientos'));
+        $this->set('_serialize', ['movimientos']);
+    }
 }

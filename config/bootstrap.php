@@ -232,3 +232,8 @@ if (Configure::read('debug')) {
 
 Plugin::load('Cors', ['bootstrap' => true, 'routes' => false]);
 Plugin::load('ADmad/JwtAuth');
+
+use Cake\I18n\FrozenTime;
+FrozenTime::setJsonEncodeFormat('yyyy-MM-dd HH:mm:ss');
+use Cake\I18n\FrozenDate;
+FrozenDate::setJsonEncodeFormat('yyyy-MM-dd');

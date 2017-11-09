@@ -97,6 +97,14 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
+    $routes->resources('Movimientos', [
+        'map' => [
+            'getByBien/:bien_id' => [
+                'action' => 'getByBien',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
 });
 
 Plugin::routes();

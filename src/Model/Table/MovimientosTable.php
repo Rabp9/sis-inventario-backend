@@ -66,7 +66,7 @@ class MovimientosTable extends Table
         $this->belongsTo('Responsable', [
             'className' => 'Personas',
             'foreignKey' => 'responsable',
-            'propertyName' => 'responsable',
+            'propertyName' => 'persona_responsable',
             'joinType' => 'INNER'
         ]);
     }

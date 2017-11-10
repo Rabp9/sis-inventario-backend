@@ -81,10 +81,26 @@ Router::scope('/', function (RouteBuilder $routes) {
  */
 Router::scope('/', function ($routes) {
     $routes->extensions(['json']);
+    $routes->resources('Areas', [
+        'map' => [
+            'search/:search' => [
+                'action' => 'search',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Credenciales');
     $routes->resources('Marcas');
     $routes->resources('Tipos');
     $routes->resources('Datos');
+    $routes->resources('Personas', [
+        'map' => [
+            'search/:search' => [
+                'action' => 'search',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Bienes', [
         'map' => [
             'registrarLote' => [

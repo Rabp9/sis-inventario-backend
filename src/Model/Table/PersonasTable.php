@@ -9,6 +9,8 @@ use Cake\Core\Configure;
 
 /**
  * Personas Model
+ * 
+ * @property \Cake\ORM\Association\HasMany $DetalleTrabajadores
  *
  * @method \App\Model\Entity\Persona get($primaryKey, $options = [])
  * @method \App\Model\Entity\Persona newEntity($data = null, array $options = [])
@@ -33,6 +35,10 @@ class PersonasTable extends Table
         $this->setTable(Configure::read('prefix_systram') . '.personal');
         $this->setDisplayField('Per_nom');
         $this->setPrimaryKey('PerCod');
+        
+        $this->hasMany('DetalleTrabajadores', [
+            'foreignKey' => 'PerCod'
+        ]);
     }
 
     /**
@@ -42,5 +48,20 @@ class PersonasTable extends Table
      */
     public static function defaultConnectionName() {
         return 'systram_tmt';
+    }
+    
+    public function searchPersonas($persona) {
+        return $this->find()
+            ->where(['OR' => [
+                'Personas.Per_ape_pat LIKE' => '%' . $persona . '%',
+                'Personas.Per_nom LIKE' => '%' . $persona . '%',
+            ]])
+            ->matching('DetalleTrabajadores', function($q) {
+                return $q->where([
+                    'DetalleTrabajadores.id_depend' => 1,
+                    'DetalleTrabajadores.Idestado' => 1,
+                ]);
+            })
+            ->select(['PerCod', 'Per_ape_pat', 'Per_nom']);
     }
 }

@@ -49,23 +49,20 @@ class MovimientosController extends AppController
      *
      * @return \Cake\Network\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $movimiento = $this->Movimientos->newEntity();
         if ($this->request->is('post')) {
             $movimiento = $this->Movimientos->patchEntity($movimiento, $this->request->getData());
+            debug($movimiento);
             if ($this->Movimientos->save($movimiento)) {
-                $this->Flash->success(__('The movimiento has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $code = 200;
+                $message = __('El Movimiento fue registrado correctamente');
+            } else {
+                $code = 500;
+                $message = __('El Movimiento no fue registrado correctamente');
             }
-            $this->Flash->error(__('The movimiento could not be saved. Please, try again.'));
         }
-        $bienes = $this->Movimientos->Bienes->find('list', ['limit' => 200]);
-        $areaActivas = $this->Movimientos->AreaActivas->find('list', ['limit' => 200]);
-        $usuarioActivos = $this->Movimientos->UsuarioActivos->find('list', ['limit' => 200]);
-        $estados = $this->Movimientos->Estados->find('list', ['limit' => 200]);
-        $this->set(compact('movimiento', 'bienes', 'areaActivas', 'usuarioActivos', 'estados'));
+        $this->set(compact('movimiento'));
         $this->set('_serialize', ['movimiento']);
     }
 

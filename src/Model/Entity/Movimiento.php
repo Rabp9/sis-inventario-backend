@@ -32,11 +32,6 @@ class Movimiento extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'id' => false,
-        'bien_id' => false,
-        'area_activa_id' => false,
-        'usuario_activo_id' => false,
-        'estado_id' => false
+        '*' => true
     ];
 }

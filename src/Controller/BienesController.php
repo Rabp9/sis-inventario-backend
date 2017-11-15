@@ -168,7 +168,8 @@ class BienesController extends AppController
         $query = $this->Bienes->find()
             ->contain(['Tipos', 'Marcas', 'Movimientos' => function($q) {
                 return $q->where(['Movimientos.estado_id' => 1])
-                    ->contain(['Areas', 'Users', 'Responsable']);
+                    ->contain(['Areas', 'Users', 'Responsable'])
+                    ->order(['Movimientos.fecha_inicio DESC']);
             }]);
 
         $bienes = $this->paginate($query);

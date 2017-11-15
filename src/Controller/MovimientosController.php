@@ -53,17 +53,25 @@ class MovimientosController extends AppController
         $movimiento = $this->Movimientos->newEntity();
         if ($this->request->is('post')) {
             $movimiento = $this->Movimientos->patchEntity($movimiento, $this->request->getData());
-            debug($movimiento);
+            $this->Movimientos->updateAll([
+                'fecha_fin' => date('Y-m-d')
+            ], [
+                'estado_id' => 1
+            ]);
+            $this->Movimientos->updateAll([
+                'estado_id' => 2
+            ], [
+                'estado_id' => 1
+            ]);
             if ($this->Movimientos->save($movimiento)) {
                 $code = 200;
                 $message = __('El Movimiento fue registrado correctamente');
             } else {
-                $code = 500;
                 $message = __('El Movimiento no fue registrado correctamente');
             }
         }
-        $this->set(compact('movimiento'));
-        $this->set('_serialize', ['movimiento']);
+        $this->set(compact('movimiento', 'code', 'message'));
+        $this->set('_serialize', ['movimiento', 'code', 'message']);
     }
 
     /**

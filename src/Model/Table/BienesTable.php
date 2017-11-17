@@ -36,6 +36,7 @@ class BienesTable extends Table
 
         $this->setTable('bienes');
         $this->setDisplayField('id');
+        $this->setEntityClass('bien');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Tipos', [
@@ -45,9 +46,6 @@ class BienesTable extends Table
         $this->belongsTo('Marcas', [
             'foreignKey' => 'marca_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Biens', [
-            'foreignKey' => 'bien_id'
         ]);
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',

@@ -158,6 +158,7 @@ class BienesController extends AppController
     
     public function getBienesMovimientos() {
         $maxSize = $this->request->getQuery('maxSize');
+        $search = $this->request->getQuery('search');
 
         $this->paginate = [
             'limit' => $maxSize,
@@ -171,6 +172,10 @@ class BienesController extends AppController
                     ->contain(['Areas', 'Users', 'Responsable'])
                     ->order(['Movimientos.fecha_inicio DESC']);
             }]);
+            
+        if ($search != '') {
+            $query->where(['Bienes.descripcion_detalle LIKE' => '%' . $search . '%']);
+        }
 
         $bienes = $this->paginate($query);
             

@@ -11,4 +11,3 @@
 </IfModule>
 
 SetEnv CAKEPHP_DEBUG 1
-SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0

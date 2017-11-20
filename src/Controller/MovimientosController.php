@@ -54,14 +54,11 @@ class MovimientosController extends AppController
         if ($this->request->is('post')) {
             $movimiento = $this->Movimientos->patchEntity($movimiento, $this->request->getData());
             $this->Movimientos->updateAll([
-                'fecha_fin' => date('Y-m-d')
-            ], [
-                'estado_id' => 1
-            ]);
-            $this->Movimientos->updateAll([
+                'fecha_fin' => date('Y-m-d'),
                 'estado_id' => 2
             ], [
-                'estado_id' => 1
+                'estado_id' => 1, 
+                'bien_id' => $movimiento->bien_id
             ]);
             if ($this->Movimientos->save($movimiento)) {
                 $code = 200;
@@ -124,12 +121,26 @@ class MovimientosController extends AppController
     }
     
     public function getByBien() {
+        $maxSize = $this->request->getQuery('maxSize');
         $bien_id = $this->request->getParam('bien_id');
         
-        $movimientos = $this->Movimientos->findByBienId($bien_id)
+        $this->paginate = [
+            'limit' => $maxSize
+        ];
+        
+        $query = $this->Movimientos->findByBienId($bien_id)
             ->contain(['Areas', 'Responsable']);
         
-        $this->set(compact('movimientos'));
-        $this->set('_serialize', ['movimientos']);
+        $movimientos = $this->paginate($query);
+            
+        $paginate = $this->request->getParam('paging')['Movimientos'];
+       
+        $pagination = [
+            'totalItems' => $paginate['count'],
+            'itemsPerPage' =>  $paginate['perPage']
+        ];
+        
+        $this->set(compact('movimientos', 'pagination'));
+        $this->set('_serialize', ['movimientos', 'pagination']);
     }
 }

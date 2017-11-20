@@ -37,8 +37,9 @@ class Bien extends Entity
         '*' => true
     ];
     
-    protected $_virtual = ['descripcion_detalle'];
+    // protected $_virtual = ['descripcion_detalle'];
     
+    /*
     protected function _getDescripcionDetalle() {
         $id = $this->_properties['id'];
         $descripcion = $this->_properties['descripcion'];
@@ -47,11 +48,14 @@ class Bien extends Entity
         $modelo =  $this->_properties['modelo'];
         $serie =  $this->_properties['serie'];
         $codigo_patrimonial =  $this->_properties['codigo_patrimonial'];
-        if (sizeof($this->_properties['movimientos'])) {
-            $area = $this->_properties['movimientos'][0]['area']['per_Area'];
-            $persona_responsable = $this->_properties['movimientos'][0]['persona_responsable']['full_name'];
-            return $id . ' ' . $descripcion . ' ' . $tipo . ' ' . $marca . ' ' . $modelo . ' ' . $serie . ' ' . $codigo_patrimonial . ' ' . $area . ' ' . $persona_responsable;;
+        if (isset($this->_properties['movimientos'])) {
+            if (sizeof($this->_properties['movimientos'])) {
+                $area = $this->_properties['movimientos'][0]['area']['per_Area'];
+                $persona_responsable = $this->_properties['movimientos'][0]['persona_responsable']['full_name'];
+                return $id . ' ' . $descripcion . ' ' . $tipo . ' ' . $marca . ' ' . $modelo . ' ' . $serie . ' ' . $codigo_patrimonial . ' ' . $area . ' ' . $persona_responsable;;
+            }
         }
         return $id . ' ' . $descripcion . ' ' . $tipo . ' ' . $marca . ' ' . $modelo . ' ' . $serie . ' ' . $codigo_patrimonial;
     }
+    */
 }

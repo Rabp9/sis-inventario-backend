@@ -110,6 +110,10 @@ Router::scope('/', function ($routes) {
             'getBienesMovimientos' => [
                 'action' => 'getBienesMovimientos',
                 'method' => 'GET'
+            ],
+            'darBaja' => [
+                'action' => 'darBaja',
+                'method' => 'POST'
             ]
         ]
     ]);

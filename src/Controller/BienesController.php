@@ -159,6 +159,7 @@ class BienesController extends AppController
     public function getBienesMovimientos() {
         $maxSize = $this->request->getQuery('maxSize');
         $search = $this->request->getQuery('search');
+        $estado_id = $this->request->getQuery('estado_id');
 
         $this->paginate = [
             'limit' => $maxSize,
@@ -172,9 +173,20 @@ class BienesController extends AppController
                     ->contain(['Areas', 'Users', 'Responsable'])
                     ->order(['Movimientos.fecha_inicio DESC']);
             }]);
-            
+
         if ($search != '') {
-            $query->where(['Bienes.descripcion_detalle LIKE' => '%' . $search . '%']);
+            $query->where(['OR' => [
+                'Bienes.id' => $search,
+                'Bienes.descripcion LIKE' => '%' . $search . '%',
+                'Bienes.modelo LIKE' => '%' . $search . '%',
+                'Bienes.serie LIKE' => '%' . $search . '%',
+                'Bienes.codigo_patrimonial LIKE' => '%' . $search . '%',
+                'Tipos.descripcion LIKE' => '%' . $search . '%'
+            ]]);
+        }
+        
+        if ($estado_id != '') {
+            $query->where(['Bienes.estado_id' => $estado_id]);
         }
 
         $bienes = $this->paginate($query);
@@ -188,5 +200,42 @@ class BienesController extends AppController
         
         $this->set(compact('bienes', 'pagination'));
         $this->set('_serialize', ['bienes', 'pagination']);
+    }
+    
+    public function darBaja() {
+        if ($this->request->is('post')) {
+            $id = $this->request->getData('id');
+            $bien = $this->Bienes->get($id);
+            $bien->estado_id = 2;
+            $cn = ConnectionManager::get('default');
+            $success = true;
+            
+            if ($this->Bienes->save($bien)) {
+                $movimiento = $this->Bienes->Movimientos->find()
+                    ->where(['bien_id' => $id, 'estado_id' => 1])
+                    ->first();
+                if ($movimiento) {
+                    $movimiento->estado_id = 2;
+                    $movimiento->fecha_fin = date('Y-m-d');
+                    if (!$this->Bienes->Movimientos->save($movimiento)) {
+                        $success = false;
+                    }
+                }
+            } else {
+                $success = false;
+            }
+            if ($success) {
+                $cn->commit();
+                $message= "El bien fue dado de baja correctamente";
+                $code = 200;
+            } else {
+                $cn->rollback();
+                $message= "El bien no fue dado de baja correctamente";
+                $code = 500;
+            }
+        }
+        
+        $this->set(compact('message', 'code'));
+        $this->set('_serialize', ['message', 'code']);
     }
 }

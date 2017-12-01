@@ -159,8 +159,11 @@ class BienesController extends AppController
     public function getBienesMovimientos() {
         $maxSize = $this->request->getQuery('maxSize');
         $search = $this->request->getQuery('search');
-        $estado_id = $this->request->getQuery('estado_id');
-
+        $estado_1 = $this->request->getQuery('estado_1');
+        $estado_2 = $this->request->getQuery('estado_2');
+        $estado_3 = $this->request->getQuery('estado_3');
+        $estados = [];
+        
         $this->paginate = [
             'limit' => $maxSize,
             'order' => [
@@ -168,8 +171,9 @@ class BienesController extends AppController
             ]
         ];
         $query = $this->Bienes->find()
-            ->contain(['Tipos', 'Marcas', 'Movimientos' => function($q) {
-                return $q->where(['Movimientos.estado_id' => 1])
+            ->contain(['Tipos', 'Marcas', 'Estados', 'Movimientos' => function($q) {
+                $estados = [1, 4];
+                return $q->where(['Movimientos.estado_id IN' => $estados])
                     ->contain(['Areas', 'Users', 'Responsable'])
                     ->order(['Movimientos.fecha_inicio DESC']);
             }]);
@@ -185,8 +189,20 @@ class BienesController extends AppController
             ]]);
         }
         
-        if ($estado_id != '') {
-            $query->where(['Bienes.estado_id' => $estado_id]);
+        if ($estado_1 == 'true') {
+            array_push($estados, 1);
+        }
+        
+        if ($estado_2 == 'true') {
+            array_push($estados, 2);
+        }
+        
+        if ($estado_3 == 'true') {
+            array_push($estados, 3);
+        }
+        
+        if (!empty($estados)) {
+            $query->where(['Bienes.estado_id IN' => $estados]);
         }
 
         $bienes = $this->paginate($query);

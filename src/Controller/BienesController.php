@@ -254,4 +254,13 @@ class BienesController extends AppController
         $this->set(compact('message', 'code'));
         $this->set('_serialize', ['message', 'code']);
     }
+    
+    public function getByTipo($tipo_id = 0) {
+        $tipo_id = $this->request->getParam('tipo_id');
+        $bienes = $this->Bienes->find()
+            ->where(['tipo_id' => $tipo_id]);
+                
+        $this->set(compact('bienes'));
+        $this->set('_serialize', ['bienes']);
+    }
 }

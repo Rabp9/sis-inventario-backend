@@ -114,6 +114,10 @@ Router::scope('/', function ($routes) {
             'darBaja' => [
                 'action' => 'darBaja',
                 'method' => 'POST'
+            ],
+            'getByTipo/:tipo_id' => [
+                'action' => 'getByTipo',
+                'method' => 'GET'
             ]
         ]
     ]);

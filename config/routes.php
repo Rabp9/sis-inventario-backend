@@ -90,6 +90,7 @@ Router::scope('/', function ($routes) {
         ]
     ]);
     $routes->resources('Credenciales');
+    $routes->resources('Licencias');
     $routes->resources('Marcas');
     $routes->resources('Tipos');
     $routes->resources('Datos');

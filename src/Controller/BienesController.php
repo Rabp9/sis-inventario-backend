@@ -263,4 +263,80 @@ class BienesController extends AppController
         $this->set(compact('bienes'));
         $this->set('_serialize', ['bienes']);
     }
+    
+    public function getBienesQr() {
+        $descripcion = $this->request->getQuery('descripcion');
+        $tipo_id = $this->request->getQuery('tipo_id');
+        $marca_id = $this->request->getQuery('marca_id');
+        $modelo = $this->request->getQuery('modelo');
+        $serie = $this->request->getQuery('serie');
+        $codigo_patrimonial = $this->request->getQuery('codigo_patrimonial');
+        $area_id = $this->request->getQuery('area_id');
+        $responsable = $this->request->getQuery('responsable');
+        $estado_1 = $this->request->getQuery('estado_1');
+        $estado_2 = $this->request->getQuery('estado_2');
+        $estado_3 = $this->request->getQuery('estado_3');
+        $estados = [];
+        
+        $query = $this->Bienes->find()
+            ->contain(['Tipos', 'Marcas', 'Estados', 'Movimientos' => function($q) {
+                $estados = [1, 4];
+                return $q->where(['Movimientos.estado_id IN' => $estados])
+                    ->contain(['Areas', 'Users', 'Responsable'])
+                    ->order(['Movimientos.fecha_inicio DESC']);
+            }]);
+
+        if ($descripcion != '') {
+            $query->where(['Bienes.descripcion LIKE' => '%' . $descripcion . '%']);
+        }
+        
+        if ($tipo_id != '') {
+            $query->where(['Bienes.tipo_id' => $tipo_id]);
+        }
+        
+        if ($marca_id != '') {
+            $query->where(['Bienes.marca_id' => $marca_id]);
+        }
+        
+        if ($modelo != '') {
+            $query->where(['Bienes.modelo LIKE' => '%' . $modelo . '%']);
+        }
+        
+        if ($serie != '') {
+            $query->where(['Bienes.serie LIKE' => '%' . $serie . '%']);
+        }
+        
+        if ($codigo_patrimonial != '') {
+            $query->where(['Bienes.codigo_patrimonial LIKE' => '%' . $codigo_patrimonial . '%']);
+        }
+        
+        if ($area_id != '') {
+            $query->where(['Bienes.area_id LIKE' => '%' . $area_id . '%']);
+        }
+        
+        if ($responsable != '') {
+            $query->where(['Bienes.area_id LIKE' => '%' . $area_id . '%']);
+        }
+        
+        if ($estado_1 == 'true') {
+            array_push($estados, 1);
+        }
+        
+        if ($estado_2 == 'true') {
+            array_push($estados, 2);
+        }
+        
+        if ($estado_3 == 'true') {
+            array_push($estados, 3);
+        }
+        
+        if (!empty($estados)) {
+            $query->where(['Bienes.estado_id IN' => $estados]);
+        }
+        
+        $bienes = $query->toArray();
+        
+        $this->set(compact('bienes'));
+        $this->set('_serialize', ['bienes']);
+    }
 }

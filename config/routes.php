@@ -119,6 +119,10 @@ Router::scope('/', function ($routes) {
             'getByTipo/:tipo_id' => [
                 'action' => 'getByTipo',
                 'method' => 'GET'
+            ],
+            'getBienesQr' => [
+                'action' => 'getBienesQr',
+                'method' => 'GET'
             ]
         ]
     ]);

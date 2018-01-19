@@ -339,4 +339,15 @@ class BienesController extends AppController
         $this->set(compact('bienes'));
         $this->set('_serialize', ['bienes']);
     }
+    
+    public function getByIds() {
+        $ids = $this->request->getParam('ids');
+        $array_ids = explode(",", $ids);
+        
+        $bienes = $this->Bienes->find()
+            ->where(['id IN' => $array_ids]);
+        
+        $this->set(compact('bienes'));
+        $this->set('_serialize', ['bienes']);
+    }
 }

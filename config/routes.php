@@ -123,6 +123,10 @@ Router::scope('/', function ($routes) {
             'getBienesQr' => [
                 'action' => 'getBienesQr',
                 'method' => 'GET'
+            ],
+            'getByIds/:ids' => [
+                'action' => 'getByIds',
+                'method' => 'GET'
             ]
         ]
     ]);
